@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useState } from "react";
 import axios from "axios";
-
+import "./App.css";
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [recipients, setRecipients] = useState("");
@@ -14,11 +14,15 @@ function App() {
     setRecipients(e.target.value);
   };
 
-  const handleUpload = () => {
+  const handleUpload = (e) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     axios
-      .post("http://localhost:5000/upload", formData)
+      .post("http://localhost:5000/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         console.log(response.data);
       })
@@ -57,16 +61,18 @@ function App() {
       <h1>Digital Signature Web App</h1>
       <div>
         <input type="file" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Upload</button>
+        <button onClick={handleUpload}>Upload File</button>
       </div>
+      <br></br>
       <div>
         <input
           type="text"
           placeholder="Recipients (comma-separated)"
           onChange={handleRecipientChange}
         />
-        <button onClick={handleSend}>Send</button>
+        <button onClick={handleSend}>Send to Email</button>
       </div>
+      <br></br>
       <div>
         <button onClick={handleGetSignedDocument}>Get Signed Document</button>
       </div>

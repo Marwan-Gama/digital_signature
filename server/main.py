@@ -4,10 +4,15 @@ import os
 
 app = Flask(__name__)
 
+
 # Directory to store uploaded documents
 UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+@app.route('/', methods=['GET'])
+def root():
+    return "hello"
 
 @app.route('/upload', methods=['POST'])
 def upload_document():
